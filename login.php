@@ -8,6 +8,13 @@
     exit();
   }
 
+  if(isset($_GET["loginFail"])) {
+    $errMsg = "請輸入帳號或密碼";
+  }
+  else {
+    $errMsg = "";
+  }
+
   if(isset($_POST["btnOK"])) {
     $userName = $_POST["txtUserName"];
     $userPassword = $_POST["txtPassword"];
@@ -22,7 +29,11 @@
       }
     }
     else {
-      header("Location: login.php");
+      if(isset($_GET["secret"])) {
+        header("Location: login.php?loginFail=1&secret=1");  
+      } else {
+        header("Location: login.php?loginFail=1");  
+      }
     }
   }
 
@@ -36,6 +47,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Lab - Login</title>
+  <style>
+    #errMsg{
+      color: red;
+    }
+  </style>
 </head>
 <body>
 <form id="form1" name="form1" method="post" action="">
@@ -58,6 +74,8 @@
       </td>
     </tr>
   </table>
+  <div align="center" id="errMsg"><?php echo $errMsg ?></div>
 </form>
+
 </body>
 </html>
